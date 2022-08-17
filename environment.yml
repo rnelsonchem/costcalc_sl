@@ -6,4 +6,4 @@ dependencies:
     - pandas
     - openpyxl
     - pip:
-        - git+https://https://github.com/rnelsonchem/costcalc2.git
+        - git+https://github.com/rnelsonchem/costcalc2.git
