@@ -1,0 +1,9 @@
+name: costcalc_sl
+
+dependencies:
+    - python
+    - numpy
+    - pandas
+    - openpyxl
+    - pip:
+        - git+https://https://github.com/rnelsonchem/costcalc2.git
