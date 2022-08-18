@@ -18,9 +18,10 @@ if rxn_file:
     wb = load_workbook(rxn_file)
 
     # Create a selection box for the desired sheet
-    rxn_sheet = st.sidebar.selectbox('Sheet name', wb.sheetnames, key='sheet')
+    sheets = ['<Not Selected>'] + wb.sheetnames
+    rxn_sheet = st.sidebar.selectbox('Sheet name', sheets, key='sheet')
 
-    if rxn_sheet:
+    if rxn_sheet != '<Not Selected>':
         # Once the sheet is selected, get the values for the desired sheet.
         ws = wb[rxn_sheet].values
         # The column names will be the first line
@@ -31,6 +32,7 @@ if rxn_file:
         # Find the unique compound names
         unique = df.Compound.unique()
         # Create a selection box to get the final product 
+        unique = ['<Not Selected>'] + list(unique)
         final_product = st.sidebar.selectbox('Final product', unique, key='prod')
 
 # Upload the materials Excel file
@@ -40,7 +42,9 @@ mat_file = st.sidebar.file_uploader('Route-specfic material file upload',
 
 
 # Once all of the data is collected, run it through the costing code
-if mat_file and rxn_file and rxn_sheet and final_product:
+if mat_file and rxn_file \
+        and (rxn_sheet != '<Not Selected>') \
+        and (final_product != '<Not Selected>'):
     coster = costcalc.WebAppCost(mat_file, rxn_file, final_product, 
                                 rxn_sheet=rxn_sheet,)
     coster.calc_cost()
