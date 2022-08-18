@@ -1,4 +1,3 @@
-import shutil
 from io import BytesIO
 
 import streamlit as st
@@ -36,7 +35,7 @@ if rxn_file:
 
 # Upload the materials Excel file
 st.sidebar.write('**Materials Information**')
-mat_file = st.sidebar.file_uploader('Route-Specfic material file upload',
+mat_file = st.sidebar.file_uploader('Route-specfic material file upload',
         key='rte_mat') 
 
 
@@ -49,11 +48,11 @@ if mat_file and rxn_file and rxn_sheet and final_product:
     # Display a DataFrame of the results. At this time, the Streamlit
     # dataframe display can't handle empty cells, hence the fill=np.nan
     st.write('# Costing Output')
-    st.write(f'The RM costs for {final_product} is {round(coster.cost, 2)}.')
+    st.write(f'The total RM cost for {final_product} is ${round(coster.cost, 2)}.')
     st.dataframe(coster.results(fill=np.nan))
 
     # Ask for a filename for Excel saving
-    fname = st.text_input('Prove a file name below for Excel download:')
+    fname = st.text_input('Prove a file name below to download an Excel file:')
     if fname:
         # Add the file extension if not given
         if not fname.endswith('.xlsx'):
