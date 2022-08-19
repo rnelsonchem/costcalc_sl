@@ -40,7 +40,6 @@ st.sidebar.write('**Materials Information**')
 mat_file = st.sidebar.file_uploader('Route-specfic material file upload',
         key='rte_mat') 
 
-
 # Once all of the data is collected, run it through the costing code
 if mat_file and rxn_file \
         and (rxn_sheet != '<Not Selected>') \
@@ -52,7 +51,9 @@ if mat_file and rxn_file \
     # Display a DataFrame of the results. At this time, the Streamlit
     # dataframe display can't handle empty cells, hence the fill=np.nan
     st.write('# Costing Output')
-    st.write(f'The total RM cost for {final_product} is ${round(coster.cost, 2)}.')
+    c_str = f'The total RM cost for **{final_product}** is ' \
+                f'**${coster.cost:.2f}**.'
+    st.write(c_str)
     st.dataframe(coster.results(fill=np.nan))
 
     # Ask for a filename for Excel saving
