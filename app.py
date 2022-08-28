@@ -7,6 +7,20 @@ from openpyxl import load_workbook
 
 import costcalc
 
+def excel_bytes(coster):
+    # Create the excel file. Can only save with the date and not the time
+    # This must be done as a Bytes object, as described in the refs
+    output = BytesIO()
+    writer = pd.ExcelWriter(output)
+    coster.excel(writer,) 
+    writer.save()
+    
+    # Get the byte string for output and return this for saving
+    proc_excel = output.getvalue()
+
+    return proc_excel
+
+### Main App Window and Functionality ###
 # Get the reactions Excel file
 st.sidebar.write('**Reaction Information**')
 rxn_file = st.sidebar.file_uploader('Reaction Excel file upload', key='rxn')
@@ -62,9 +76,10 @@ if mat_file and rxn_file \
         # Add the file extension if not given
         if not fname.endswith('.xlsx'):
             fname += '.xlsx'
-        st.download_button('Download', coster.excel_save(None), fname)
+
+        st.download_button('Download', excel_bytes(coster), fname)
 
 ### References:
 # See: https://stackoverflow.com/questions/36814050/openpyxl-get-sheet-by-name
 # See: https://www.soudegesu.com/en/post/python/pandas-with-openpyxl/
-
+# https://discuss.streamlit.io/t/download-button-for-csv-or-xlsx-file/17385/2
