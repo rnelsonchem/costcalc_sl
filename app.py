@@ -81,14 +81,9 @@ if mat_file and rxn_file \
     st.write(c_str)
     st.dataframe(coster.results(fill=np.nan))
 
-    # Ask for a filename for Excel saving
-    fname = st.text_input('Prove a file name below to download an Excel file:')
-    if fname:
-        # Add the file extension if not given
-        if not fname.endswith('.xlsx'):
-            fname += '.xlsx'
-
-        st.download_button('Download', excel_bytes(coster), fname)
+    # Filename will be the sheet name with the date
+    fname = coster._now.split()[0] + ' ' + rxn_sheet + ' costing' + '.xlsx' 
+    st.download_button('Download Results', excel_bytes(coster), fname)
 
 ### References:
 # See: https://stackoverflow.com/questions/36814050/openpyxl-get-sheet-by-name
