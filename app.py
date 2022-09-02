@@ -58,8 +58,19 @@ mat_file = st.sidebar.file_uploader('Route-specfic material file upload',
 if mat_file and rxn_file \
         and (rxn_sheet != '<Not Selected>') \
         and (final_product != '<Not Selected>'):
-    coster = costcalc.WebAppCost(mat_file, rxn_file, final_product, 
-                                rxn_sheet=rxn_sheet,)
+
+    try:
+        coster = costcalc.WebAppCost(mat_file, rxn_file, final_product, 
+                                    rxn_sheet=rxn_sheet,)
+    except ValueError as err:
+        # Display errors here in a sensible way. ValueErrors at this stage are
+        # mostly captured by the costcalc code
+        err_sty = '<style type="text/css">h1 {color:red;}</style>\n'
+        st.write(err_sty + '# *Input Error*', unsafe_allow_html=True)
+        st.error(err)
+        # Stop the app execution if an error is found.
+        st.stop()
+
     coster.calc_cost()
 
     # Display a DataFrame of the results. At this time, the Streamlit
